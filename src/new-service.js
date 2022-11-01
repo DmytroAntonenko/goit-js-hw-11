@@ -1,7 +1,7 @@
 export default class NewsApiService {
     constructor() {
 this.searchQuery = '';
-this.page = 0;
+this.page = 1;
 this.per_page = 40;
     }
     async OnFetchImages() {
@@ -14,9 +14,14 @@ this.per_page = 40;
           );
           const data = await response.json();
           this.page += 1;
+          return data.hits;
         } catch (error) {
           console.log('error');
         }
+      }
+
+      resetPage() {
+        this.page = 1;
       }
       get query() {
         return this.searchQuery;
