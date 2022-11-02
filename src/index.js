@@ -7,9 +7,12 @@ import NewsApiService from './new-service';
 const searchForm = document.querySelector('#search-form');
 const inputRef = document.querySelector('input[name="searchQuery"]');
 const loadMoreBtnRef = document.querySelector('.load-more');
+const linkMoreRef = document.querySelector('.link');
 const searchBtnRef = document.querySelector('button');
 const galleryRef = document.querySelector('.gallery');
 
+loadMoreBtnRef.style.visibility = 'hidden';
+linkMoreRef.style.visibility = 'hidden';
 const newsApiService = new NewsApiService();
 
 
@@ -22,7 +25,9 @@ function onSearch(event) {
   newsApiService.query = event.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
   newsApiService.OnFetchImages().then(articlesMarkup);
-  console.log(newsApiService.OnFetchImages().then(hits => console.log(hits)))
+  loadMoreBtnRef.style.visibility = 'visible';
+  linkMoreRef.style.visibility = 'visible';
+  // console.log(newsApiService.OnFetchImages().then(hits => console.log(hits)))
   }
   
   // function onLoadMore(event) {
@@ -38,7 +43,7 @@ function articlesMarkup(hits) {
 }
 
 function articlesTpl(hits) {
-  return data = hits
+  return hits
     .map(hit => {
       return `<div class="photo-card">
       <a class="gallery-item" href="${hit.largeImageURL}">
