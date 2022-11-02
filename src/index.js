@@ -18,10 +18,11 @@ loadMoreBtnRef.addEventListener('click', onLoadMore);
 
 function onSearch(event) {
   event.preventDefault();
+  clearArticles();
   newsApiService.query = event.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
-  newsApiService.OnFetchImages();
   newsApiService.OnFetchImages().then(articlesMarkup);
+  console.log(newsApiService.OnFetchImages().then(hits => console.log(hits)))
   }
   
   // function onLoadMore(event) {
@@ -37,25 +38,35 @@ function articlesMarkup(hits) {
 }
 
 function articlesTpl(hits) {
-  const markup = hits
+  return markup = hits
     .map(hit => {
       return `<div class="photo-card">
-      <img src="" alt="" loading="lazy" />
+      <a class="gallery-item" href="${hit.largeImageURL}">
+          <img
+            class="gallery__image"
+            src="${hit.webformatURL}"
+            alt="${hit.tags}"
+            loading="lazy"
+        /></a>
       <div class="info">
         <p class="info-item">
-          <b>Likes</b>
+          <b>Likes ${hit.likes}</b>
         </p>
         <p class="info-item">
-          <b>Views</b>
+          <b>Views ${hit.views}</b>
         </p>
         <p class="info-item">
-          <b>Comments</b>
+          <b>Comments ${hit.comments}</b>
         </p>
         <p class="info-item">
-          <b>Downloads</b>
+          <b>Downloads ${hit.downloads}</b>
         </p>
       </div>
     </div>`;
     })
-    .join('');
+    .join('');   
+}
+
+function clearArticles() {
+  galleryRef.innerHTML = '';
 }
