@@ -11,9 +11,12 @@ const linkMoreRef = document.querySelector('.link');
 const searchBtnRef = document.querySelector('button');
 const galleryRef = document.querySelector('.gallery');
 
+
+
 loadMoreBtnRef.style.visibility = 'hidden';
 linkMoreRef.style.visibility = 'hidden';
 const newsApiService = new NewsApiService();
+
 
 
 searchForm.addEventListener('submit', onSearch);
@@ -27,19 +30,21 @@ function onSearch(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   loadMoreBtnRef.style.visibility = 'visible';
   linkMoreRef.style.visibility = 'visible';
-  // console.log(newsApiService.OnFetchImages().then(hits => console.log(hits)))
+  newsApiService.OnFetchImages().then(hits => console.log(hits.length));
+ 
+  // if (newsApiService.OnFetchImages().then(hits => console.log(hits.length)) = 0) {
+  //   Notiflix.Notify.failure(
+  //     'Sorry, there are no images matching your search query. Please try again.')
+  // }
   }
   
-  // function onLoadMore(event) {
-  //   newsApiService.OnFetchImages().then(hits => console.log(hits));
-  // }
 function onLoadMore(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   
 }
 
 function articlesMarkup(hits) {
-  galleryRef.insertAdjacentHTML('afterend', articlesTpl(hits))
+  galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits))
 }
 
 function articlesTpl(hits) {
