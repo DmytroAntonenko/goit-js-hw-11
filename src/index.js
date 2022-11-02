@@ -38,7 +38,7 @@ function articlesMarkup(hits) {
 }
 
 function articlesTpl(hits) {
-  return markup = hits
+  return data = hits
     .map(hit => {
       return `<div class="photo-card">
       <a class="gallery-item" href="${hit.largeImageURL}">
