@@ -1,8 +1,8 @@
 import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 import axios from 'axios';
 import NewsApiService from './new-service';
-
 
 const searchForm = document.querySelector('#search-form');
 const inputRef = document.querySelector('input[name="searchQuery"]');
@@ -30,18 +30,22 @@ function onSearch(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   loadMoreBtnRef.style.visibility = 'visible';
   linkMoreRef.style.visibility = 'visible';
-  // newsApiService.OnFetchImages().then(hits => console.log(hits.length));
+  new SimpleLightbox('.gallery a');
   newsApiService.OnFetchImages().then(hits =>{
     if(hits.length === 0){Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+    loadMoreBtnRef.style.visibility = 'hidden';
+    linkMoreRef.style.visibility = 'hidden';
     return
     }
     articlesMarkup(hits)
     });
+    // const x =  newsApiService.OnFetchImages().then(hits => console.log(hits))
+    // console.log(newsApiService.OnFetchImages())
 }
 
 function onLoadMore(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
-  
+  new SimpleLightbox('.gallery a');
 }
 
 function articlesMarkup(hits) {
