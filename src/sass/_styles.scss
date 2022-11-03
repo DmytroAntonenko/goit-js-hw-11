@@ -1,3 +1,38 @@
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+img {
+    width: 320px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    }
+
+.photo-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 5px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  .gallery-item {
+    max-width: 300px;
+  }
+.search-form {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid #fff
+}
+
+
 .search-form {
     padding-top: 24px;
     padding-bottom: 24px;
@@ -84,4 +119,25 @@ background-color: #188ce8;
 .link:hover,
 .link:focus {
 background-color: #188ce8;
+}
+
+.info {
+    padding: 5px;
+    display: flex;
+    justify-content:space-between;
+}
+
+.info-box {
+    // display: inline;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.88;
+  margin-top: 0px;
+}
+b {
+    margin: 0;  
+}
+
+p {
+    margin: 0;  
 }

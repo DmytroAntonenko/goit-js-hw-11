@@ -31,14 +31,14 @@ function onSearch(event) {
   loadMoreBtnRef.style.visibility = 'visible';
   linkMoreRef.style.visibility = 'visible';
   // newsApiService.OnFetchImages().then(hits => console.log(hits.length));
-  newsApiService.OnFetchImages().then(hits => if(hits.length === 0){Notiflix.Notify.failure});
-  
-  // if (newsApiService.OnFetchImages().then(hits => console.log(hits.length)) === 0) {
-  //   Notiflix.Notify.failure(
-  //     'Sorry, there are no images matching your search query. Please try again.')
-  // }
-  }
-  
+  newsApiService.OnFetchImages().then(hits =>{
+    if(hits.length === 0){Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+    return
+    }
+    articlesMarkup(hits)
+    });
+}
+
 function onLoadMore(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   
@@ -60,18 +60,30 @@ function articlesTpl(hits) {
             loading="lazy"
         /></a>
       <div class="info">
-        <p class="info-item">
-          <b>Likes ${hit.likes}</b>
-        </p>
-        <p class="info-item">
-          <b>Views ${hit.views}</b>
-        </p>
-        <p class="info-item">
-          <b>Comments ${hit.comments}</b>
-        </p>
-        <p class="info-item">
-          <b>Downloads ${hit.downloads}</b>
-        </p>
+        <div class="info-box">
+          <p class="info-item">
+            <b>Likes</b>
+          </p>
+          <p>${hit.likes}<p>
+        </div>
+        <div class="info-box">
+          <p class="info-item">
+            <b>Views</b>
+          </p>
+          <p>${hit.views}<p>
+          </div>
+        <div class="info-box">
+          <p class="info-item">
+            <b>Comments</b>  
+          </p>
+          <p>${hit.comments}<p>
+        </div>
+        <div class="info-box">
+          <p class="info-item">
+            <b>Downloads</b>
+          </p>
+          <p>${hit.downloads}<p>
+        </div>
       </div>
     </div>`;
     })
