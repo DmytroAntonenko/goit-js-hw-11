@@ -7,7 +7,7 @@ import NewsApiService from './new-service';
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
-  // navText:	['←','→'],
+  navText:	['←','→'],
 });
 
 const searchForm = document.querySelector('#search-form');
@@ -16,7 +16,6 @@ const loadMoreBtnRef = document.querySelector('.load-more');
 const linkMoreRef = document.querySelector('.link');
 const searchBtnRef = document.querySelector('button');
 const galleryRef = document.querySelector('.gallery');
-
 
 
 loadMoreBtnRef.style.visibility = 'hidden';
@@ -36,30 +35,48 @@ function onSearch(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   loadMoreBtnRef.style.visibility = 'visible';
   linkMoreRef.style.visibility = 'visible';
-  newsApiService.OnFetchImages().then(hits =>{
-    if(hits.length === 0){Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
-    loadMoreBtnRef.style.visibility = 'hidden';
-    linkMoreRef.style.visibility = 'hidden';
+  newsApiService.OnFetchImages().then(data =>{
+    if(data.hits.length > 0){Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)}
+    if(data.hits.length === 0){
+      loadMoreBtnRef.style.visibility = 'hidden';
+      linkMoreRef.style.visibility = 'hidden';
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
     return
     }
-    articlesMarkup(hits)
-    });
+    // articlesMarkup(hits)
     
-    // const x =  newsApiService.OnFetchImages().then(hits => console.log(hits))
-    // console.log(newsApiService.OnFetchImages())
+    });
+
+    // let totalPages =  newsApiService.OnFetchImages().then(totalHits)
+    // console.log(totalPages)
+    // newsApiService.OnFetchImages().then(data =>{(console.log(data.totalHits))})
 }
 
 function onLoadMore(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
+  newsApiService.OnFetchImages().then(data =>{
+  let totalpage = data.totalHits/data.hits.length; 
+  let currentPage = newsApiService.page
+    console.log(currentPage)
+    if(currentPage > totalpage){Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")}
+})
 }
 
 function articlesMarkup(hits) {
   galleryRef.insertAdjacentHTML('beforeend', articlesTpl(hits))
   lightbox.refresh()
+  const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: "smooth",
+});
 }
 
-function articlesTpl(hits) {
-  return hits
+function articlesTpl(data) {
+  return data.hits
     .map(hit => {
       return `<div class="photo-card">
       <a class="gallery-item" href="${hit.largeImageURL}">
@@ -103,3 +120,4 @@ function articlesTpl(hits) {
 function clearArticles() {
   galleryRef.innerHTML = '';
 }
+

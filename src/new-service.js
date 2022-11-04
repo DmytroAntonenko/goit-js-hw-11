@@ -14,7 +14,7 @@ this.per_page = 40;
           );
           const data = await response.json();
           this.page += 1;
-          return data.hits;
+          return data;
         } catch (error) {
           console.log('error');
         }
