@@ -1,8 +1,8 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
-import axios from 'axios';
 import NewsApiService from './new-service';
+import axios from "axios";
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -35,6 +35,8 @@ function onSearch(event) {
   newsApiService.OnFetchImages().then(articlesMarkup);
   loadMoreBtnRef.style.visibility = 'visible';
   linkMoreRef.style.visibility = 'visible';
+  // newsApiService.OnFetchImages().then(data =>{(console.log(data))})
+  // newsApiService.OnFetchImages(console.log(data))
   newsApiService.OnFetchImages().then(data =>{
     if(data.hits.length > 0){Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)}
     if(data.hits.length === 0){
